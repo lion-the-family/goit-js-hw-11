@@ -73,7 +73,16 @@ async function onLoadMore() {
   try {
     const data = await fetchImages(currentQuery, currentPage);
 
+    const galleryCardHeight =
+      gallery.firstElementChild?.getBoundingClientRect().height || 0;
+
     renderGallery(gallery, data.hits);
+
+    // Плавная прокрутка страницы
+    window.scrollBy({
+      top: galleryCardHeight * 2,
+      behavior: 'smooth',
+    });
 
     if (currentPage * 15 >= totalHits) {
       toggleLoadMoreButton(loadMoreButton, false);
